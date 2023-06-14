@@ -11,8 +11,10 @@ class Hangman:
         self.turn_count = 0                     # to count the turns played
         self.error_count = 0                    # to count errors
 
-    possible_words = ['becode', 'learning', 'mathematics', 'sessions']  # the list of available words
-    lives = 5                                                           # number of allowed turns
+    # the list of available words
+    possible_words = ['becode', 'learning', 'mathematics', 'sessions', 'grizzly', 'bear', 'artificial', 'intelligence']
+    # number of allowed turns
+    lives = 5
     
     def select_a_word(self):
         """Selects a random word to be guessed from available list, 
@@ -27,9 +29,23 @@ class Hangman:
         return word_list, cgl_list
 
     def play(self):
-        """Asks player to enter a letter and returns it in upper case"""
-        letter = input("Please enter a letter (Only A to Z letters are allowed): ")
+        """Asks player to enter a letter and returns it in upper case
+            verifies that the input is indeed one single alphabetical character"""
+        letter = ""
+        while not letter.isalpha() or len(letter) != 1:
+            letter = input("Please enter a letter (Only A to Z letters are allowed): ")
         return letter.upper()
+
+    def guess_word(self):
+        right_guess = False
+        keep_playing = False
+        word_or_not = input("\t\tIf you know the word, tell us... \n\t\tIf not, press enter, and keep playing: ")
+        if word_or_not == "":
+            keep_playing = True
+        else:
+            if ''.join(self.word_to_find) == word_or_not.upper():
+                right_guess = True
+        return right_guess, keep_playing
 
     def game_over(self):
         """Terminates the game in case no lives left"""
@@ -43,27 +59,16 @@ class Hangman:
 
     def start_game(self):
         """This is the main method to manage a game instance"""
-        # select a word to play and initiate the words lists
+        # select a random word to play and add the word's data to the lists
         self.word_to_find, self.correctly_guessed_letters = self.select_a_word()
-        print("Here is the words to be guessed: " + ' '.join(self.correctly_guessed_letters))
-        ask_the_word = False    # changed to True after 1st correct letter
-                                # used to ask player to guess the whole word
-        # request letters and process the responces, runs 'lives' times or less
+        print("Here is the word to be guessed: " + ' '.join(self.correctly_guessed_letters))
+        any_letters_guessed = False     # at least one right guess?
+        # ask player to guess a letter and/or the full word (runs 'lives' times or less)
         while self.turn_count < self.lives:
+            right_guess = False     # guessed it right this turn?
             status_message = ""
-            # if at least one letter guessed, ask if player wantes to guess the whole word
-            if ask_the_word:
-                guess_or_not = input("If you know the word, tell us... If not, press enter, and keep playing: ")
-                if guess_or_not != "":
-                    if ''.join(self.word_to_find) == guess_or_not.upper():
-                        self.well_played()
-                        break
-                    else:
-                        print("WRONG!!! Keep playing...")
-            # request a lettr
+            # request a letter
             letter = self.play()
-            if not letter.isalpha():
-                letter = self.play()
             # check if the letter is in the word
             if letter in self.word_to_find:
                 # update correctly_guessed letters
@@ -76,15 +81,16 @@ class Hangman:
                     break
                 else:
                     status_message = "\tYou guessed it RIGHT!\n\t"
-                    if not ask_the_word: ask_the_word = True
+                    right_guess = True
+                    if any_letters_guessed == False: any_letters_guessed = True
             else:
                 # update wrongly_guessed_letters
                 self.wrongly_guessed_letters.append(letter)
                 self.error_count += 1
                 status_message = "\tYou guessed it WRONG!\n\t"
             self.turn_count += 1
-            # print status
-            if ask_the_word:
+            # create and print status message
+            if any_letters_guessed:
                 status_message += "You guessed these letters correctly: "
             else:
                 status_message += "You haven't guessed any letters correctly: "
@@ -95,7 +101,17 @@ class Hangman:
             status_message += "\n\t"
             status_message += f"You used {self.turn_count} turns out of {self.lives}, and have {self.error_count} errors... Keep playing..."
             print(status_message)
+            # if it was the right guess and some letters are guessed already, 
+            # ask player if he wants to guess the whole word
+            if right_guess and any_letters_guessed:
+                correct_word, play_further = self.guess_word()
+                if correct_word:
+                    self.well_played()
+                    break
+                elif play_further:
+                    continue
+                else:
+                    print("\t\tBAD GUESS!!!")
         else:
             # no turns left
             self.game_over()
-        
