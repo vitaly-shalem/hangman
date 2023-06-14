@@ -50,6 +50,7 @@ class Hangman:
                                 # used to ask player to guess the whole word
         # request letters and process the responces, runs 'lives' times or less
         while self.turn_count < self.lives:
+            status_message = ""
             # if at least one letter guessed, ask if player wantes to guess the whole word
             if ask_the_word:
                 guess_or_not = input("If you know the word, tell us... If not, press enter, and keep playing: ")
@@ -74,15 +75,26 @@ class Hangman:
                     self.well_played()
                     break
                 else:
-                    message = f"You guessed it right! Here's the word: "    ### TO IMPROVE
+                    status_message = "\tYou guessed it RIGHT!\n\t"
                     if not ask_the_word: ask_the_word = True
             else:
                 # update wrongly_guessed_letters
                 self.wrongly_guessed_letters.append(letter)
                 self.error_count += 1
-                message = f"You guessed it wrong! Here's the word: "        ### TO IMPROVE
-            print(message + ' '.join(self.correctly_guessed_letters))
+                status_message = "\tYou guessed it WRONG!\n\t"
             self.turn_count += 1
+            # print status
+            if ask_the_word:
+                status_message += "You guessed these letters correctly: "
+            else:
+                status_message += "You haven't guessed any letters correctly: "
+            status_message += ' '.join(self.correctly_guessed_letters)
+            status_message += "\n\t"
+            status_message += "Wrongly guessed letters: "
+            status_message += ", ".join(self.wrongly_guessed_letters)
+            status_message += "\n\t"
+            status_message += f"You used {self.turn_count} turns out of {self.lives}, and have {self.error_count} errors... Keep playing..."
+            print(status_message)
         else:
             # no turns left
             self.game_over()
