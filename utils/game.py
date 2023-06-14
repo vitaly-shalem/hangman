@@ -34,12 +34,15 @@ class Hangman:
         letter = ""
         while not letter.isalpha() or len(letter) != 1:
             letter = input("Please enter a letter (Only A to Z letters are allowed): ")
+            if letter.upper() in self.wrongly_guessed_letters or letter.upper() in self.correctly_guessed_letters:
+                print("Letter " + letter.upper() + " has be used before, pay attention!")
+                letter = ""
         return letter.upper()
 
     def guess_word(self):
         right_guess = False
         keep_playing = False
-        word_or_not = input("\t\tIf you know the word, tell us... \n\t\tIf not, press enter, and keep playing: ")
+        word_or_not = input("\t\tIf you know the word, tell us... (If not, press enter): ")
         if word_or_not == "":
             keep_playing = True
         else:
@@ -99,7 +102,7 @@ class Hangman:
             status_message += "Wrongly guessed letters: "
             status_message += ", ".join(self.wrongly_guessed_letters)
             status_message += "\n\t"
-            status_message += f"You used {self.turn_count} turns out of {self.lives}, and have {self.error_count} errors... Keep playing..."
+            status_message += f"You used {self.turn_count} turns out of {self.lives}, and have {self.error_count} errors..."
             print(status_message)
             # if it was the right guess and some letters are guessed already, 
             # ask player if he wants to guess the whole word
