@@ -2,19 +2,15 @@ import random
 
 class Hangman:
     def __init__(self):
-        self.name = "Hangman game"
-        # modified attributes
         self.word_to_find = None                # a list with the letters of the words
         self.correctly_guessed_letters = None   # a list with _ for each letter at start
         self.wrongly_guessed_letters = []       # a list to store wrongly guessed letters
-                                                # not used... can be removed?
         self.turn_count = 0                     # to count the turns played
         self.error_count = 0                    # to count errors
 
     # the list of available words
     possible_words = ['becode', 'learning', 'mathematics', 'sessions', 'grizzly', 'bear', 'artificial', 'intelligence']
-    # number of allowed turns
-    lives = 5
+    lives = 5       # number of allowed turns
     
     def select_a_word(self):
         """Selects a random word to be guessed from available list, 
@@ -29,8 +25,9 @@ class Hangman:
         return word_list, cgl_list
 
     def play(self):
-        """Asks player to enter a letter and returns it in upper case
-            verifies that the input is indeed one single alphabetical character"""
+        """Asks player to enter a letter and returns it in upper case;
+            verifies that the input is indeed one single alphabetical character;
+            verifies that the input has not been ued before"""
         letter = ""
         while not letter.isalpha() or len(letter) != 1:
             letter = input("Please enter a letter (Only A to Z letters are allowed): ")
@@ -40,6 +37,8 @@ class Hangman:
         return letter.upper()
 
     def guess_word(self):
+        """Presents an option to guess the whole word;
+            returns two boolean values: right guess or not, keep playing (no guess)"""
         right_guess = False
         keep_playing = False
         word_or_not = input("\t\tIf you know the word, tell us... (If not, press enter): ")
