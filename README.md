@@ -64,8 +64,9 @@ Just make sure you have Python v3.6 or higher installed on your machine.
 - Enjoy the game!
 
 ## Timeline
-- The first working version has to be submitted end of the day 2023-06-14.
-- The final version to be submitted on 2023-06-15.
+- The first working version has to be submitted end of the day 2023-06-14. [Tag: **v0.1**]
+- The final version to be submitted on 2023-06-15. [Tag: **v1.0** or higher]
 
 ## Personal
-This project is part of BeCode's **AI Bootscamp** training, group **ARAI 5**.
+- Author: *Vitaly Shalem*
+- This project is part of BeCode's **AI Bootscamp** training, group **ARAI 5**
