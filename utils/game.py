@@ -85,7 +85,8 @@ class Hangman:
                 else:
                     status_message = "\tYou guessed it RIGHT!\n\t"
                     right_guess = True
-                    if any_letters_guessed == False: any_letters_guessed = True
+                    if any_letters_guessed == False:
+                        any_letters_guessed = True
             else:
                 # update wrongly_guessed_letters
                 self.wrongly_guessed_letters.append(letter)
