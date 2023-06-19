@@ -7,10 +7,11 @@ class Hangman:
         self.wrongly_guessed_letters = []       # a list to store wrongly guessed letters
         self.turn_count = 0                     # to count the turns played
         self.error_count = 0                    # to count errors
+        self.lives = self.startLives            # lives to spend, lost with each wrong guess
 
     # the list of available words
     possible_words = ['becode', 'learning', 'mathematics', 'sessions', 'grizzly', 'bear', 'artificial', 'intelligence']
-    lives = 5       # number of allowed turns
+    startLives = 5       # number of lives at the begining of each game
     
     def select_a_word(self):
         """Selects a random word to be guessed from available list, 
@@ -65,8 +66,9 @@ class Hangman:
         self.word_to_find, self.correctly_guessed_letters = self.select_a_word()
         print("Here is the word to be guessed: " + ' '.join(self.correctly_guessed_letters))
         any_letters_guessed = False     # at least one right guess?
-        # ask player to guess a letter and/or the full word (runs 'lives' times or less)
-        while self.turn_count < self.lives:
+        # ask player to guess a letter and/or the full word, while has lives
+        while self.lives > 0:
+            self.turn_count += 1
             right_guess = False     # guessed it right this turn?
             status_message = ""
             # request a letter
@@ -91,7 +93,7 @@ class Hangman:
                 self.wrongly_guessed_letters.append(letter)
                 self.error_count += 1
                 status_message = "\tYou guessed it WRONG!\n\t"
-            self.turn_count += 1
+                self.lives -= 1
             # create and print status message
             if any_letters_guessed:
                 status_message += "You guessed these letters correctly: "
@@ -102,7 +104,7 @@ class Hangman:
             status_message += "Wrongly guessed letters: "
             status_message += ", ".join(self.wrongly_guessed_letters)
             status_message += "\n\t"
-            status_message += f"You used {self.turn_count} turns out of {self.lives}, and have {self.error_count} errors..."
+            status_message += f"You used {self.turn_count} turns, have {self.lives} lives / {self.startLives}, and made {self.error_count} errors..."
             print(status_message)
             # if it was the right guess and some letters are guessed already, 
             # ask player if he wants to guess the whole word
