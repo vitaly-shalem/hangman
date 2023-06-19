@@ -32,7 +32,9 @@ class Hangman:
         letter = ""
         while not letter.isalpha() or len(letter) != 1:
             letter = input("Please enter a letter (Only A to Z letters are allowed): ")
-            if letter.upper() in self.wrongly_guessed_letters or letter.upper() in self.correctly_guessed_letters:
+            if not letter.isalpha() or len(letter) != 1:
+                letter = ""
+            elif letter.upper() in self.wrongly_guessed_letters or letter.upper() in self.correctly_guessed_letters:
                 print("Letter " + letter.upper() + " has be used before, pay attention!")
                 letter = ""
         return letter.upper()
