@@ -15,8 +15,9 @@ Build a Terminal version of **Hangman** game.
 - Break the project to smaller tasks and build it task by task.
 - Learn while doing, because it's the best learning.
 - Once you have a stable working version, push to *main* and tag.
-- Keep improving, but don't for get to work on a branch to keep stable version clean.
-- Stable again, go *main* and tag.
+- Keep improving, but don't forget to work on a branch to keep stable version clean.
+- Stable again, push to branch, create a pull request, review, and merge to *main*.
+- When reaching a milestone or adding improvements, ad a tag.
 
 ## Game logic
 - A random word is selected from the list of available words and presented to a player with undescores representing each letter.
@@ -25,7 +26,9 @@ Build a Terminal version of **Hangman** game.
     - If a player enters a wrong character or more than one character, the question is repeated,
     - If a player enters a letter that has been played already, a message is presented and the question is repeated.
 - A letter enterred is checked in the list of the letters that construct this word:
-    - If a letter entered by a player does not appear in the word, a meesage stating that the guess was *wrong* appears,
+    - If a letter entered by a player does not appear in the word: 
+        - A meesage stating that the guess was *wrong* appears,
+        - Number of lives is rduced by one.
     - If a letter entered appears in the word, a meesage stating that the guiess was *right* appears,
     - The *word* is presented again:
         - In case any letters guessed right, they appear in the right positions,
@@ -38,13 +41,14 @@ Build a Terminal version of **Hangman** game.
         - Number of played turns,
         - Total number of turns available (a.k.a *lives*),
         - Number of errors made so far.
-- At the end of each turn, if a player guessed at leas one letter correctly, he is presented with an option to guess the whole word:
+- At the end of a turn with a correct guess, a player is presented with an option to guess the whole word:
     - A player has a choice to continue without taking this attemp or try to guess the whole word,
     - If a player guesses correctly, the game is over and the *winning* message is presented,
-    - Else the game continues, if and only if any turns left.
-- If a player runs out of turns, the *loosing* message is presented.
-- The *winning* message present the **word** and the game summary:
+    - Else the game continues, if and only if the user has live/s left.
+- If a player runs out of lives, the *loosing* message is presented.
+- The *winning* message presents the **word** and the game summary:
     - Total number if turns used,
+    - Number of lives left,
     - Total number of errors made.
 - Please note! When a player fails to guess the whole word, it doesn **not** count as an error.
 
@@ -55,7 +59,7 @@ The gameto be played in Terminal:
 - Git Bash
 Anything works!
 
-Just make sure you have Python v3.6 or higher installed on your machine.
+Just make sure you have Python v3.11 or higher installed on your machine.
 
 ## Usage
 - Open Terminal.
